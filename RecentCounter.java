@@ -1,22 +1,15 @@
-import java.util.*;
-
 public class RecentCounter {
-    Deque<Integer> requests;
-
-    public RecentCounter() {
-        requests = new ArrayDeque<>();
-    }
-
+    static int[] queue = new int[10000];
+    int start = 0;
+    int end = 0;
+    
     public int ping(int t) {
-        int count = 1;
-        Iterator iterator = requests.descendingIterator();
-        while (iterator.hasNext()) {
-            int val = (int) iterator.next();
-            if (val >= t - 3000 && val <= t)
-                count++;
+        queue[end++] = t;
+
+        while (queue[start] < t - 3000) {
+            start++;
         }
 
-        requests.offer(t);
-        return count;
+        return end - start;
     }
 }
